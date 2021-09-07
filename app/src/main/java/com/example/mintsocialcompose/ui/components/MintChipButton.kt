@@ -27,7 +27,7 @@ fun MintChipButton(text: String) {
     val (isChecked, setChecked) = remember { mutableStateOf(false) }
     Surface(
         modifier = Modifier
-            .padding(10.dp)
+            .padding(5.dp)
             .clip(shape = CircleShape)
             .clickable { setChecked(!isChecked) }
     ) {

@@ -14,7 +14,7 @@ data class Blog(
         fun getBlogList(): List<Blog> {
             return listOf(
                 Blog(
-                    "",
+                    "12ge3-bdeg33-gde433-ff3433",
                     "Title",
                     "content...",
                     "imageurl",
@@ -24,7 +24,7 @@ data class Blog(
                     ""
                 ),
                 Blog(
-                    "",
+                    "12ge3-bdeg33-gde433-ff3433",
                     "Title",
                     "content...",
                     "imageurl",
@@ -34,7 +34,7 @@ data class Blog(
                     ""
                 ),
                 Blog(
-                    "",
+                    "12ge3-bdeg33-gde433-ff3433",
                     "Title",
                     "content...",
                     "imageurl",
@@ -44,7 +44,7 @@ data class Blog(
                     ""
                 ),
                 Blog(
-                    "",
+                    "12ge3-bdeg33-gde433-ff3433",
                     "Title",
                     "content...",
                     "imageurl",
@@ -54,7 +54,7 @@ data class Blog(
                     ""
                 ),
                 Blog(
-                    "",
+                    "12ge3-bdeg33-gde433-ff3433",
                     "Title",
                     "content...",
                     "imageurl",
@@ -64,7 +64,7 @@ data class Blog(
                     ""
                 ),
                 Blog(
-                    "",
+                    "12ge3-bdeg33-gde433-ff3433",
                     "Title",
                     "content...",
                     "imageurl",
@@ -74,7 +74,7 @@ data class Blog(
                     ""
                 ),
                 Blog(
-                    "",
+                    "12ge3-bdeg33-gde433-ff3433",
                     "Title",
                     "content...",
                     "imageurl",
@@ -84,7 +84,7 @@ data class Blog(
                     ""
                 ),
                 Blog(
-                    "",
+                    "12ge3-bdeg33-gde433-ff3433",
                     "Title",
                     "content...",
                     "imageurl",
@@ -94,7 +94,7 @@ data class Blog(
                     ""
                 ),
                 Blog(
-                    "",
+                    "12ge3-bdeg33-gde433-ff3433",
                     "Title",
                     "content...",
                     "imageurl",
@@ -104,7 +104,7 @@ data class Blog(
                     ""
                 ),
                 Blog(
-                    "",
+                    "12ge3-bdeg33-gde433-ff3433",
                     "Title",
                     "content...",
                     "imageurl",
@@ -114,7 +114,7 @@ data class Blog(
                     ""
                 ),
                 Blog(
-                    "",
+                    "12ge3-bdeg33-gde433-ff3433",
                     "Title",
                     "content...",
                     "imageurl",
@@ -124,7 +124,7 @@ data class Blog(
                     ""
                 ),
                 Blog(
-                    "",
+                    "12ge3-bdeg33-gde433-ff3433",
                     "Title",
                     "content...",
                     "imageurl",
@@ -134,7 +134,7 @@ data class Blog(
                     ""
                 ),
                 Blog(
-                    "",
+                    "12ge3-bdeg33-gde433-ff3433",
                     "Title",
                     "content...",
                     "imageurl",

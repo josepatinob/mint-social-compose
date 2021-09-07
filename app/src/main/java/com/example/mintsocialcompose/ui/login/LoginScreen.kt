@@ -1,6 +1,7 @@
 package com.example.mintsocialcompose.ui.login
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -8,13 +9,17 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.mintsocialcompose.ui.components.AnnotatedClickableText
 import com.example.mintsocialcompose.ui.components.MintTextField
+import com.example.mintsocialcompose.ui.components.PasswordTextField
 import com.example.mintsocialcompose.ui.theme.MainLight
 import com.example.mintsocialcompose.ui.theme.MainMaroon
 
@@ -45,10 +50,18 @@ fun LoginBody(
                 onCreateAccountClick = onCreateAccountClick
             )
             Spacer(Modifier.size(55.dp))
-            MintTextField(placeholder = "Enter email", isPasswordField = false, inputValue = email)
             MintTextField(
+                placeholder = "Enter email",
+                inputValue = email,
+                singleLine = true,
+                keyboardType = KeyboardType.Email,
+                imeAction = ImeAction.Next,
+                modifier = Modifier
+                    .padding(bottom = 25.dp)
+                    .clip(shape = CircleShape)
+            )
+            PasswordTextField(
                 placeholder = "Enter password",
-                isPasswordField = true,
                 inputValue = password
             )
             Button(

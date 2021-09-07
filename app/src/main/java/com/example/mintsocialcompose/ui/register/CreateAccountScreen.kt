@@ -1,6 +1,5 @@
 package com.example.mintsocialcompose.ui.register
 
-import android.graphics.drawable.shapes.Shape
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -10,7 +9,6 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Create
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Photo
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -19,14 +17,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.mintsocialcompose.R
 import com.example.mintsocialcompose.ui.components.MintTextField
-import com.example.mintsocialcompose.ui.login.LoginBody
+import com.example.mintsocialcompose.ui.components.PasswordTextField
 import com.example.mintsocialcompose.ui.theme.MainLight
-import com.example.mintsocialcompose.ui.theme.Shapes
 
 @Composable
 fun CreateAccountBody() {
@@ -62,17 +61,20 @@ fun CreateAccountBody() {
             }
             MintTextField(
                 placeholder = "Enter email",
-                isPasswordField = false,
-                inputValue = email
+                inputValue = email,
+                singleLine = true,
+                keyboardType = KeyboardType.Email,
+                imeAction = ImeAction.Next,
+                modifier = Modifier
+                    .padding(bottom = 25.dp)
+                    .clip(shape = CircleShape)
             )
-            MintTextField(
+            PasswordTextField(
                 placeholder = "Enter password",
-                isPasswordField = true,
                 inputValue = password
             )
-            MintTextField(
+            PasswordTextField(
                 placeholder = "Enter password",
-                isPasswordField = true,
                 inputValue = password
             )
             Button(
