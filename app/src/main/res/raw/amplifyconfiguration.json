@@ -1,0 +1,47 @@
+{
+  "UserAgent": "aws-amplify-cli/2.0",
+  "Version": "1.0",
+  "api": {
+    "plugins": {
+      "awsAPIPlugin": {
+        "AdminQueries": {
+          "endpointType": "REST",
+          "endpoint": "https://yf202bz2j5.execute-api.us-east-2.amazonaws.com/dev",
+          "region": "us-east-2",
+          "authorizationType": "AMAZON_COGNITO_USER_POOLS"
+        }
+      }
+    }
+  },
+  "auth": {
+    "plugins": {
+      "awsCognitoAuthPlugin": {
+        "UserAgent": "aws-amplify-cli/0.1.0",
+        "Version": "0.1.0",
+        "IdentityManager": {
+          "Default": {}
+        },
+        "CredentialsProvider": {
+          "CognitoIdentity": {
+            "Default": {
+              "PoolId": "us-east-2:b88d0b2f-d193-4561-b3f1-7030933d7270",
+              "Region": "us-east-2"
+            }
+          }
+        },
+        "CognitoUserPool": {
+          "Default": {
+            "PoolId": "us-east-2_WQQERUKYX",
+            "AppClientId": "5kjctrg4d74iaken8e4jjl0or2",
+            "Region": "us-east-2"
+          }
+        },
+        "Auth": {
+          "Default": {
+            "authenticationFlowType": "USER_SRP_AUTH"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,6 +1,5 @@
 package com.example.mintsocialcompose.ui.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -14,12 +13,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.mintsocialcompose.R
 import com.example.mintsocialcompose.model.Blog
+import com.skydoves.landscapist.CircularReveal
+import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
 fun BlogCard(blog: Blog, onItemClick: (String) -> Unit = {}) {
@@ -35,9 +35,16 @@ fun BlogCard(blog: Blog, onItemClick: (String) -> Unit = {}) {
                 .padding(10.dp)
                 .fillMaxWidth()
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.profile_image),
-                contentDescription = null,
+            GlideImage(
+                imageModel = blog.imageUrl,
+                // Crop, Fit, Inside, FillHeight, FillWidth, None
+                contentScale = ContentScale.Crop,
+                // shows an image with a circular revealed animation.
+                circularReveal = CircularReveal(duration = 550),
+                // shows a placeholder ImageBitmap when loading.
+//            placeHolder = ImageBitmap.imageResource(R.drawable.loading),
+//            // shows an error ImageBitmap when the request failed.
+//            error = ImageBitmap.imageResource(R.drawable.ic_connection_error)
                 modifier = Modifier
                     .clip(shape = RoundedCornerShape(10.dp))
                     .width(100.dp)
@@ -49,7 +56,7 @@ fun BlogCard(blog: Blog, onItemClick: (String) -> Unit = {}) {
                     .fillMaxHeight()
             ) {
                 Text(
-                    text = "Kim Kardashian's Top Picks because its never enough",
+                    text = blog.title,
                     fontSize = 21.sp,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis
@@ -68,13 +75,13 @@ fun BlogCard(blog: Blog, onItemClick: (String) -> Unit = {}) {
                             tint = Color.Gray
                         )
                         Text(
-                            text = "Kris Jenner",
+                            text = blog.authorName,
                             fontSize = 18.sp,
                             color = Color.Gray
                         )
                     }
                     Text(
-                        text = "6/10/2021",
+                        text = blog.createdDate.toString(),
                         fontSize = 18.sp,
                         color = Color.Gray
                     )

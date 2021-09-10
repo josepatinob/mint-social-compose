@@ -19,6 +19,7 @@ private val LightColorPalette = lightColors(
     secondary = Accent,
     surface = Color.White,
     onSurface = Color.Black,
+    error = Invalid,
 
     /* Other default colors to override
     background = Color.White,

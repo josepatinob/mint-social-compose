@@ -1,5 +1,6 @@
 package com.example.mintsocialcompose
 
+import android.provider.ContactsContract
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddBox
 import androidx.compose.material.icons.filled.FormatListBulleted
@@ -10,29 +11,29 @@ import java.lang.IllegalArgumentException
 enum class MintScreen(
     val title: String = "",
     val icon: ImageVector? = null,
-    val homeDestination: Boolean,
-    val hasAppBar: Boolean
+    val isHomeDestination: Boolean,
+    val supportsActionBar: Boolean
 ) {
-    Login(homeDestination = false, hasAppBar = false),
-    CreateAccount(homeDestination = false, hasAppBar = false),
+    Login(isHomeDestination = false, supportsActionBar = false),
+    CreateAccount(isHomeDestination = false, supportsActionBar = false),
     BlogList(
         title = "Blog List",
         icon = Icons.Filled.FormatListBulleted,
-        homeDestination = true,
-        hasAppBar = true
+        isHomeDestination = true,
+        supportsActionBar = true
     ),
-    BlogDetail(title = "Blog Detail", homeDestination = false, hasAppBar = true),
+    BlogDetail(title = "Blog Detail", isHomeDestination = false, supportsActionBar = true),
     CreateBlog(
         title = "Create Blog",
         icon = Icons.Filled.AddBox,
-        homeDestination = true,
-        hasAppBar = true
+        isHomeDestination = true,
+        supportsActionBar = true
     ),
     Profile(
         title = "Profile",
         icon = Icons.Filled.Person,
-        homeDestination = true,
-        hasAppBar = true
+        isHomeDestination = true,
+        supportsActionBar = true
     );
 
     companion object {

@@ -1,41 +1,36 @@
 package com.example.mintsocialcompose.ui.profile
 
-import android.text.Layout
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.Center
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.mintsocialcompose.R
 import com.example.mintsocialcompose.model.Blog
-import com.example.mintsocialcompose.ui.blogdetail.BlogDetailProfile
 import com.example.mintsocialcompose.ui.components.BlogCard
 import com.example.mintsocialcompose.ui.theme.*
-import com.skydoves.landscapist.CircularReveal
-import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
 fun ProfileBody(onItemClick: (String) -> Unit) {
-    var state by remember { mutableStateOf(0) }
+    var state by rememberSaveable { mutableStateOf(0) }
     val tabs = listOf("Info", "Posts")
     Column(
         modifier = Modifier
@@ -70,6 +65,7 @@ fun InfoSection() {
         modifier = Modifier
             .fillMaxSize()
             .background(color = MainLight)
+            .verticalScroll(rememberScrollState())
     ) {
         Surface(
             modifier = Modifier
@@ -111,6 +107,17 @@ fun InfoSection() {
                     )
                     Text(text = "3 posts", fontSize = 20.sp, color = Color.Gray)
                     Text(text = "williams.karaAX@gmail.com", fontSize = 20.sp)
+                    TextButton(
+                        onClick = { /* TODO */ },
+                        modifier = Modifier.padding(top = 10.dp)
+                    ) {
+                        Text(
+                            text = "Sign Out",
+                            style = TextStyle(textDecoration = TextDecoration.Underline),
+                            fontSize = 20.sp,
+                            color = MainMaroon
+                        )
+                    }
                 }
             }
         }
@@ -119,7 +126,7 @@ fun InfoSection() {
 
 @Composable
 fun PostSection(onItemClick: (String) -> Unit) {
-    val blogList = Blog.getBlogList()
+    val blogList = emptyList<Blog>()
     LazyColumn(
         modifier = Modifier
             .fillMaxHeight()
