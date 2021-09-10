@@ -26,6 +26,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mintsocialcompose.R
+import com.example.mintsocialcompose.type.Status
+import com.example.mintsocialcompose.ui.components.MintProgressIndicator
 import com.example.mintsocialcompose.ui.components.MintTextField
 import com.example.mintsocialcompose.ui.components.PasswordTextField
 import com.example.mintsocialcompose.ui.theme.MainLight
@@ -42,6 +44,8 @@ fun RegisterBody(
     onConfirmPasswordChange: (String) -> Unit,
     confirmPasswordError: Boolean,
     emailPasswordValid: Boolean,
+    onRegister: () -> Unit,
+    status: Status
 ) {
     Surface(
         color = MainLight,
@@ -50,67 +54,71 @@ fun RegisterBody(
             .fillMaxWidth()
             .verticalScroll(rememberScrollState())
     ) {
-        Column(
-            modifier = Modifier.padding(
-                top = 65.dp, start = 32.dp, end = 32.dp
-            ),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.profile_image),
-                contentDescription = null,
-                modifier = Modifier
-                    .padding(bottom = 15.dp)
-                    .clip(shape = CircleShape)
-            )
-            Button(
-                onClick = {},
-                enabled = false,
-                modifier = Modifier.padding(bottom = 21.dp)
-            ) {
-                Icon(Icons.Filled.Photo, contentDescription = null)
-                Text("Upload Photo", fontSize = 20.sp)
-            }
-            MintTextField(
-                placeholder = "Enter email",
-                inputValue = email,
-                onInputValueChange = onEmailChange,
-                isError = emailError,
-                errorText = "Please enter a valid email!",
-                singleLine = true,
-                keyboardOptions = KeyboardOptions(
-                    imeAction = ImeAction.Next,
-                    keyboardType = KeyboardType.Email
+        if (status == Status.Loading) {
+            MintProgressIndicator()
+        } else {
+            Column(
+                modifier = Modifier.padding(
+                    top = 65.dp, start = 32.dp, end = 32.dp
                 ),
-                keyboardActions = KeyboardActions(onNext = { /* Investigate this further */ }),
-                modifier = Modifier
-                    .padding(bottom = 20.dp)
-            )
-            PasswordTextField(
-                placeholder = "Enter password",
-                inputValue = password,
-                onInputValueChange = onPasswordChange,
-                isError = passwordError,
-                errorText = "Please enter stronger password!",
-                modifier = Modifier.padding(bottom = 20.dp)
-            )
-            PasswordTextField(
-                placeholder = "Confirm password",
-                inputValue = confirmPassword,
-                onInputValueChange = onConfirmPasswordChange,
-                isError = confirmPasswordError,
-                errorText = "Passwords do not match!",
-                modifier = Modifier.padding(bottom = 20.dp)
-            )
-            Button(
-                onClick = {
-
-                },
-                enabled = emailPasswordValid,
-                modifier = Modifier.padding(bottom = 21.dp)
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Icon(Icons.Filled.Add, contentDescription = null)
-                Text("Create Account", fontSize = 20.sp)
+                Image(
+                    painter = painterResource(id = R.drawable.profile_image),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .padding(bottom = 15.dp)
+                        .clip(shape = CircleShape)
+                )
+                Button(
+                    onClick = {},
+                    enabled = false,
+                    modifier = Modifier.padding(bottom = 21.dp)
+                ) {
+                    Icon(Icons.Filled.Photo, contentDescription = null)
+                    Text("Upload Photo", fontSize = 20.sp)
+                }
+                MintTextField(
+                    placeholder = "Enter email",
+                    inputValue = email,
+                    onInputValueChange = onEmailChange,
+                    isError = emailError,
+                    errorText = "Please enter a valid email!",
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Next,
+                        keyboardType = KeyboardType.Email
+                    ),
+                    keyboardActions = KeyboardActions(onNext = { /* Investigate this further */ }),
+                    modifier = Modifier
+                        .padding(bottom = 20.dp)
+                )
+                PasswordTextField(
+                    placeholder = "Enter password",
+                    inputValue = password,
+                    onInputValueChange = onPasswordChange,
+                    isError = passwordError,
+                    errorText = "Please enter stronger password!",
+                    modifier = Modifier.padding(bottom = 20.dp)
+                )
+                PasswordTextField(
+                    placeholder = "Confirm password",
+                    inputValue = confirmPassword,
+                    onInputValueChange = onConfirmPasswordChange,
+                    isError = confirmPasswordError,
+                    errorText = "Passwords do not match!",
+                    modifier = Modifier.padding(bottom = 20.dp)
+                )
+                Button(
+                    onClick = {
+                        onRegister()
+                    },
+                    enabled = emailPasswordValid,
+                    modifier = Modifier.padding(bottom = 21.dp)
+                ) {
+                    Icon(Icons.Filled.Add, contentDescription = null)
+                    Text("Create Account", fontSize = 20.sp)
+                }
             }
         }
     }

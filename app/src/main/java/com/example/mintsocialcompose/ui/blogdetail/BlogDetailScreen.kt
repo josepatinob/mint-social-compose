@@ -31,7 +31,7 @@ import com.skydoves.landscapist.glide.GlideImage
 fun BlogDetailBody(
     blog: Blog?,
     status: Status,
-    onProfileClick: () -> Unit
+    onProfileClick: (String, String) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -74,7 +74,7 @@ fun BlogDetailBody(
                     Column(
                         modifier = Modifier
                             .padding(
-                                top = 170.dp,
+                                top = 190.dp,
                                 start = 15.dp,
                                 end = 15.dp,
                                 bottom = 15.dp
@@ -89,6 +89,8 @@ fun BlogDetailBody(
                         )
                         BlogDetailProfile(
                             onProfileClick = onProfileClick,
+                            authorId = blog?.authorId ?: "",
+                            authorEmail = blog?.authorEmail ?: "",
                             authorName = blog?.authorName ?: "",
                             createdDate = blog?.createdDate.toString() ?: ""
                         )
@@ -109,7 +111,9 @@ fun BlogDetailBody(
 
 @Composable
 fun BlogDetailProfile(
-    onProfileClick: () -> Unit,
+    onProfileClick: (String, String) -> Unit,
+    authorEmail: String,
+    authorId: String,
     authorName: String,
     createdDate: String,
 ) {
@@ -124,7 +128,7 @@ fun BlogDetailProfile(
                 .width(65.dp)
                 .height(65.dp)
                 .clickable {
-                    onProfileClick()
+                    onProfileClick(authorId, authorEmail)
                 }
         )
         Column(
@@ -136,7 +140,7 @@ fun BlogDetailProfile(
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.clickable {
-                    onProfileClick()
+                    onProfileClick(authorId, authorEmail)
                 }
             )
             Row {

@@ -27,6 +27,7 @@ import com.example.mintsocialcompose.ui.createblog.CreateBlogViewModel
 import com.example.mintsocialcompose.ui.login.LoginBody
 import com.example.mintsocialcompose.ui.login.LoginViewModel
 import com.example.mintsocialcompose.ui.profile.ProfileBody
+import com.example.mintsocialcompose.ui.profile.ProfileViewModel
 import com.example.mintsocialcompose.ui.register.RegisterBody
 import com.example.mintsocialcompose.ui.register.RegisterViewModel
 import java.time.LocalDate
@@ -103,6 +104,7 @@ fun MintSocialNavHost(
                 false
             )
 
+            val status: Status by registerViewModel.status.observeAsState(Status.Empty)
             val emailPasswordValid: Boolean by registerViewModel.allCriteriaMet.observeAsState(false)
 
             RegisterBody(
@@ -115,7 +117,18 @@ fun MintSocialNavHost(
                 confirmPassword = confirmPassword,
                 onConfirmPasswordChange = { registerViewModel.onConfirmPasswordChange(it) },
                 confirmPasswordError = confirmPasswordError,
-                emailPasswordValid = emailPasswordValid
+                emailPasswordValid = emailPasswordValid,
+                onRegister = {
+                    registerViewModel.signUp(email, password).invokeOnCompletion {
+                        when (status) {
+                            Status.Success -> navController.navigate(MintScreen.Login.name)
+                            else -> {
+                                Log.d("TESTING", status.toString())
+                            }
+                        }
+                    }
+                },
+                status = status
             )
         }
         composable(
@@ -138,17 +151,54 @@ fun MintSocialNavHost(
             BlogDetailBody(
                 blog,
                 status = status,
-                onProfileClick = {
-                    navController.navigate(MintScreen.Profile.name)
+                onProfileClick = { authorId, authorEmail ->
+                    navController.navigate("${MintScreen.Profile.name}?userId=${authorId}&userEmail=${authorEmail}")
                 }
             )
         }
-        composable(MintScreen.Profile.name) {
-            ProfileBody(onItemClick = { blogId ->
-                navController.navigate(
-                    "${MintScreen.BlogDetail.name}/$blogId"
-                )
-            })
+        composable("${MintScreen.Profile.name}?userId={userId}&userEmail={userEmail}") { entry ->
+            val userId: String? = entry.arguments?.getString("userId")
+            val userEmail: String? = entry.arguments?.getString("userEmail")
+            val profileViewModel: ProfileViewModel = hiltViewModel()
+
+            val status: Status by profileViewModel.status.observeAsState(Status.Loading)
+            val blogList: List<Blog> by profileViewModel.blogList.observeAsState(emptyList())
+            val isLoggedInUserProfile: Boolean by profileViewModel.isLoggedInUserProfile.observeAsState(
+                true
+            )
+
+            val loggedInUserEmail = profileViewModel.loggedInUserEmail()
+            val loggedInUserId = profileViewModel.loggedInUserId()
+
+            if (userId.isNullOrEmpty()) {
+                profileViewModel.getBlogs(loggedInUserId)
+            } else {
+                profileViewModel.getBlogs(userId)
+                profileViewModel.checkForMyProfile(userId)
+            }
+
+            val email = if (userEmail.isNullOrBlank()) {
+                loggedInUserEmail ?: ""
+            } else {
+                userEmail
+            }
+
+            ProfileBody(
+                onItemClick = { blogId ->
+                    navController.navigate(
+                        "${MintScreen.BlogDetail.name}/$blogId"
+                    )
+                },
+                status = status,
+                blogList = blogList,
+                userEmail = email,
+                isLoggedInUserProfile = isLoggedInUserProfile,
+                onSignOut = {
+                    profileViewModel.signOut().invokeOnCompletion {
+                        navController.navigate(MintScreen.Login.name)
+                    }
+                }
+            )
         }
         composable(MintScreen.CreateBlog.name) {
             val createBlogViewModel: CreateBlogViewModel = hiltViewModel()

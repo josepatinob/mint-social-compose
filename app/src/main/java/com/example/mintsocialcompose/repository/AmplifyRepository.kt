@@ -88,7 +88,6 @@ class AmplifyRepository @Inject constructor() {
         Amplify.Auth.updateUserAttribute(AuthUserAttribute(AuthUserAttributeKey.email(), email))
     }
 
-
     suspend fun signUp(username: String, pwd: String): AuthStatus {
         return try {
             val result = Amplify.Auth.signUp(username, pwd)

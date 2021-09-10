@@ -38,7 +38,7 @@ enum class MintScreen(
 
     companion object {
         fun fromRoute(route: String?): MintScreen =
-            when (route?.substringBefore("/")) {
+            when (route?.substringBefore(if (route.contains("?")) "?" else "/")) {
                 Login.name -> Login
                 CreateAccount.name -> CreateAccount
                 BlogList.name -> BlogList

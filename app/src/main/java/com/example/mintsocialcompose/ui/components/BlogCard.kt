@@ -26,6 +26,7 @@ fun BlogCard(blog: Blog, onItemClick: (String) -> Unit = {}) {
     Card(
         modifier = Modifier
             .padding(top = 5.dp, start = 10.dp, end = 10.dp, bottom = 5.dp)
+            .height(120.dp)
             .fillMaxWidth()
             .clickable { onItemClick(blog.blogId) },
         elevation = 10.dp
@@ -33,7 +34,7 @@ fun BlogCard(blog: Blog, onItemClick: (String) -> Unit = {}) {
         Row(
             modifier = Modifier
                 .padding(10.dp)
-                .fillMaxWidth()
+                .fillMaxSize()
         ) {
             GlideImage(
                 imageModel = blog.imageUrl,
@@ -53,7 +54,8 @@ fun BlogCard(blog: Blog, onItemClick: (String) -> Unit = {}) {
             Column(
                 modifier = Modifier
                     .padding(start = 15.dp)
-                    .fillMaxHeight()
+                    .fillMaxHeight(),
+                verticalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
                     text = blog.title,
@@ -63,7 +65,6 @@ fun BlogCard(blog: Blog, onItemClick: (String) -> Unit = {}) {
                 )
                 Row(
                     modifier = Modifier
-                        .padding(top = 23.dp)
                         .fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
