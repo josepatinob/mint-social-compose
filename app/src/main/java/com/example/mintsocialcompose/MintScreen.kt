@@ -1,6 +1,5 @@
 package com.example.mintsocialcompose
 
-import android.provider.ContactsContract
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddBox
 import androidx.compose.material.icons.filled.FormatListBulleted

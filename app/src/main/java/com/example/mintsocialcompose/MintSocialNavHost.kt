@@ -1,13 +1,9 @@
 package com.example.mintsocialcompose
 
-import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -30,9 +26,7 @@ import com.example.mintsocialcompose.ui.profile.ProfileBody
 import com.example.mintsocialcompose.ui.profile.ProfileViewModel
 import com.example.mintsocialcompose.ui.register.RegisterBody
 import com.example.mintsocialcompose.ui.register.RegisterViewModel
-import java.time.LocalDate
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun MintSocialNavHost(
     navController: NavHostController,

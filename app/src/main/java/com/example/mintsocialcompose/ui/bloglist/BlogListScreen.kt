@@ -56,8 +56,8 @@ fun BlogListBody(
                     .background(color = MainLight)
                     .padding(top = 5.dp)
             ) {
-                items(blogList) {
-                    BlogCard(blog = it, onItemClick = onItemClick)
+                items(blogList) { blog ->
+                    BlogCard(blog = blog, onItemClick = onItemClick)
                 }
             }
         }
