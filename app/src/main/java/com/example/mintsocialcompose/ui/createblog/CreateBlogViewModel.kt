@@ -26,6 +26,18 @@ class CreateBlogViewModel @Inject constructor(
         const val TAG = "CREATE_BLOG_VIEW_MODEL"
     }
 
+    // check if user is logged in
+    private var _isSignedIn = MutableLiveData<Boolean>()
+    val isSignedIn: LiveData<Boolean> get() = _isSignedIn
+
+    private fun checkUserAuthStatus() = viewModelScope.launch {
+        _isSignedIn.value = amplifyRepository.isSignedIn()
+    }
+
+    init {
+        checkUserAuthStatus()
+    }
+
     val maxCharCount = 4000
 
     private var _imageUrl = MutableLiveData<String>()
@@ -140,7 +152,6 @@ class CreateBlogViewModel @Inject constructor(
         _imageUrl.value = url
         _imageUrlError.value = !URLUtil.isValidUrl(url)
     }
-
 
     fun onBlogTitleChange(title: String) {
         _blogTitle.value = title

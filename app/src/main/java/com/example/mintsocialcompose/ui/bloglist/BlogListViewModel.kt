@@ -44,6 +44,7 @@ class BlogListViewModel @Inject constructor(
     }
 
     init {
+        checkSignInStatus()
         _filter.value?.let { fetchBlogs(it) }
     }
 

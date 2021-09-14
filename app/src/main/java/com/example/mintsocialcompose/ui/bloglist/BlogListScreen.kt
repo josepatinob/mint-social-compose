@@ -27,6 +27,7 @@ import com.example.mintsocialcompose.ui.theme.Mint
 fun BlogListBody(
     onItemClick: (String) -> Unit,
     blogList: List<Blog>,
+    blogFilterList: List<BlogFilter>,
     status: Status,
     currentFilter: BlogFilter,
     onFilterChange: (BlogFilter) -> Unit
@@ -38,7 +39,7 @@ fun BlogListBody(
                 .fillMaxWidth()
                 .padding(10.dp)
         ) {
-            items(BlogFilter.values()) { filter ->
+            items(blogFilterList) { filter ->
                 MintChipButton(
                     filter = filter,
                     isSelected = currentFilter == filter,

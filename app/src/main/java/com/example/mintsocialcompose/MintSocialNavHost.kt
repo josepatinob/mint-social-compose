@@ -4,6 +4,8 @@ import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -18,6 +20,7 @@ import com.example.mintsocialcompose.ui.blogdetail.BlogDetailBody
 import com.example.mintsocialcompose.ui.blogdetail.BlogDetailViewModel
 import com.example.mintsocialcompose.ui.bloglist.BlogListBody
 import com.example.mintsocialcompose.ui.bloglist.BlogListViewModel
+import com.example.mintsocialcompose.ui.components.MintAlertDialog
 import com.example.mintsocialcompose.ui.createblog.CreateBlogBody
 import com.example.mintsocialcompose.ui.createblog.CreateBlogViewModel
 import com.example.mintsocialcompose.ui.login.LoginBody
@@ -30,11 +33,12 @@ import com.example.mintsocialcompose.ui.register.RegisterViewModel
 @Composable
 fun MintSocialNavHost(
     navController: NavHostController,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    startDestination: String
 ) {
     NavHost(
         navController = navController,
-        startDestination = MintScreen.Login.name,
+        startDestination = startDestination,
         modifier = modifier
     ) {
         composable(MintScreen.Login.name) {
@@ -73,6 +77,10 @@ fun MintSocialNavHost(
             val isSignedIn: Boolean by blogListViewModel.isSignedIn.observeAsState(false)
             val filter: BlogFilter by blogListViewModel.filter.observeAsState(BlogFilter.All)
 
+            val blogFilterList =
+                if (isSignedIn) BlogFilter.values().asList() else BlogFilter.values()
+                    .filter { it.filter == "all" }
+
             BlogListBody(
                 onItemClick = { blogId ->
                     navController.navigate(
@@ -80,6 +88,7 @@ fun MintSocialNavHost(
                     )
                 },
                 blogList = blogList,
+                blogFilterList = blogFilterList,
                 status = status,
                 currentFilter = filter,
                 onFilterChange = { blogListViewModel.onFilterChange(it) }
@@ -207,6 +216,32 @@ fun MintSocialNavHost(
             val status: Status by createBlogViewModel.status.observeAsState(Status.Empty)
             val charCount: Int by createBlogViewModel.charCount.observeAsState(0)
             val contentError: Boolean by createBlogViewModel.contentError.observeAsState(false)
+
+            val isSignedIn: Boolean? by createBlogViewModel.isSignedIn.observeAsState()
+
+            val openDialog = remember { mutableStateOf(false) }
+
+            if (isSignedIn == false) {
+                openDialog.value = true
+            }
+
+            if (openDialog.value) {
+                MintAlertDialog(
+                    title = "Not logged in",
+                    body = "Guest users have limited access",
+                    onConfirm = {
+                        openDialog.value = false
+                        navController.navigate(MintScreen.Login.name)
+                    },
+                    confirmText = "Login",
+                    onDismiss = {
+                        openDialog.value = false
+                        navController.navigate(MintScreen.BlogList.name)
+                    },
+                    dismissText = "Back to Blog List",
+                    dismissOnClickAway = false
+                )
+            }
 
             CreateBlogBody(
                 imageUrl = imageUrl,
