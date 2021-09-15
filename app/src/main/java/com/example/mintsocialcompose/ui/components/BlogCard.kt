@@ -22,7 +22,7 @@ import com.skydoves.landscapist.CircularReveal
 import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
-fun BlogCard(blog: Blog, onItemClick: (String) -> Unit = {}) {
+fun BlogCard(blog: Blog, onItemClick: (String) -> Unit) {
     Card(
         modifier = Modifier
             .padding(top = 5.dp, start = 10.dp, end = 10.dp, bottom = 5.dp)

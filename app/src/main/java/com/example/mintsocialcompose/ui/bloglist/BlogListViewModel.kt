@@ -1,12 +1,10 @@
 package com.example.mintsocialcompose.ui.bloglist
 
-import android.content.res.Resources
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.mintsocialcompose.R
 import com.example.mintsocialcompose.model.Blog
 import com.example.mintsocialcompose.repository.AmplifyRepository
 import com.example.mintsocialcompose.repository.BlogRepository
@@ -82,7 +80,7 @@ class BlogListViewModel @Inject constructor(
         }
     }
 
-    fun checkSignInStatus() = viewModelScope.launch {
+    private fun checkSignInStatus() = viewModelScope.launch {
         _isSignedIn.value = amplifyRepository.isSignedIn()
     }
 }

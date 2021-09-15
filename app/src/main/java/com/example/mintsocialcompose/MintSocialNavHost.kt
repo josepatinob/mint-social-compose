@@ -33,12 +33,11 @@ import com.example.mintsocialcompose.ui.register.RegisterViewModel
 @Composable
 fun MintSocialNavHost(
     navController: NavHostController,
-    modifier: Modifier = Modifier,
-    startDestination: String
+    modifier: Modifier = Modifier
 ) {
     NavHost(
         navController = navController,
-        startDestination = startDestination,
+        startDestination = MintScreen.Login.name,
         modifier = modifier
     ) {
         composable(MintScreen.Login.name) {

@@ -33,7 +33,8 @@ enum class MintScreen(
         icon = Icons.Filled.Person,
         isHomeDestination = true,
         supportsActionBar = true
-    );
+    ),
+    Splash(isHomeDestination = false, supportsActionBar = false);
 
     companion object {
         fun fromRoute(route: String?): MintScreen =
@@ -44,6 +45,7 @@ enum class MintScreen(
                 BlogDetail.name -> BlogDetail
                 CreateBlog.name -> CreateBlog
                 Profile.name -> Profile
+                Splash.name -> Splash
                 null -> BlogList
                 else -> throw IllegalArgumentException("Route $route is not recognized!")
             }
