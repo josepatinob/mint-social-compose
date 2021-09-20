@@ -2,7 +2,11 @@ package com.example.mintsocialcompose.ui.components
 
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -49,5 +53,9 @@ fun AnnotatedClickableText(
                 onCreateAccountClick()
             }
         },
+        modifier = Modifier.semantics {
+            contentDescription = "Clickable text"
+            testTag = "Clickable text test tag"
+        }
     )
 }

@@ -49,7 +49,7 @@ fun MintChipButton(
             if (isSelected) {
                 Icon(
                     imageVector = Icons.Filled.Check,
-                    contentDescription = null,
+                    contentDescription = "check icon",
                 )
             }
             Text(

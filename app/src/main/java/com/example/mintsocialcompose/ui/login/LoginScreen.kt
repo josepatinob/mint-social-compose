@@ -31,17 +31,25 @@ import com.example.mintsocialcompose.ui.theme.MainMaroon
 
 @Composable
 fun LoginBody(
-    onLoginClick: () -> Unit = {},
-    onGuestClick: () -> Unit = {},
-    onCreateAccountClick: () -> Unit = {},
+    onLoginClick: () -> Unit,
+    onGuestClick: () -> Unit,
+    onCreateAccountClick: () -> Unit,
     email: String,
     onEmailChange: (String) -> Unit,
     emailError: Boolean,
     password: String,
     onPasswordChange: (String) -> Unit,
     loginEnabled: Boolean,
-    status: Status
+    status: Status,
+    isSignedIn: Boolean?,
+    onAlreadyLoggedIn: () -> Unit
 ) {
+
+    if (isSignedIn == true) {
+        LaunchedEffect(isSignedIn) {
+            onAlreadyLoggedIn()
+        }
+    }
 
     if (status == Status.Loading) {
         MintProgressIndicator()

@@ -8,6 +8,7 @@ import androidx.compose.material.Divider
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
@@ -30,15 +31,24 @@ import com.skydoves.landscapist.glide.GlideImage
 @Composable
 fun BlogDetailBody(
     blog: Blog?,
-    status: Status,
-    onProfileClick: (String, String) -> Unit
+    isLoading: Boolean,
+    onProfileClick: (String, String) -> Unit,
+    errorMessages: List<String>,
+    onNetworkError: (String) -> Unit
 ) {
+
+    if (errorMessages.isNotEmpty()) {
+        LaunchedEffect(errorMessages) {
+            onNetworkError(errorMessages[0])
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(color = MainLight)
     ) {
-        if (status == Status.Loading) {
+        if (isLoading) {
             MintProgressIndicator()
         } else {
             Surface(

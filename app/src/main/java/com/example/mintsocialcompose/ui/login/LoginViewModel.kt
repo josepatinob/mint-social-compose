@@ -37,6 +37,18 @@ class LoginViewModel @Inject constructor(
     private var _status = MutableLiveData<Status>()
     val status: LiveData<Status> get() = _status
 
+    // check if user is logged in
+    private var _isSignedIn = MutableLiveData<Boolean>()
+    val isSignedIn: LiveData<Boolean> get() = _isSignedIn
+
+    private fun checkUserAuthStatus() = viewModelScope.launch {
+        _isSignedIn.value = amplifyRepository.isSignedIn()
+    }
+
+    init {
+        checkUserAuthStatus()
+    }
+
     fun signIn(
         email: String,
         pwd: String

@@ -17,6 +17,7 @@ import com.example.mintsocialcompose.model.Blog
 import com.example.mintsocialcompose.type.BlogFilter
 import com.example.mintsocialcompose.type.Status
 import com.example.mintsocialcompose.ui.blogdetail.BlogDetailBody
+import com.example.mintsocialcompose.ui.blogdetail.BlogDetailUiState
 import com.example.mintsocialcompose.ui.blogdetail.BlogDetailViewModel
 import com.example.mintsocialcompose.ui.bloglist.BlogListBody
 import com.example.mintsocialcompose.ui.bloglist.BlogListViewModel
@@ -33,7 +34,8 @@ import com.example.mintsocialcompose.ui.register.RegisterViewModel
 @Composable
 fun MintSocialNavHost(
     navController: NavHostController,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onNetworkError: (String) -> Unit
 ) {
     NavHost(
         navController = navController,
@@ -46,12 +48,15 @@ fun MintSocialNavHost(
             val emailError: Boolean by loginViewModel.emailError.observeAsState(false)
             val password: String by loginViewModel.password.observeAsState("")
             val status: Status by loginViewModel.status.observeAsState(Status.Empty)
+            val isSignedIn: Boolean? by loginViewModel.isSignedIn.observeAsState()
 
             LoginBody(
                 onLoginClick = {
                     loginViewModel.signIn(email, password).invokeOnCompletion {
                         when (status) {
-                            Status.Success -> navController.navigate(MintScreen.BlogList.name)
+                            Status.Success -> navController.navigate(MintScreen.BlogList.name) {
+                                popUpTo(MintScreen.Login.name) { inclusive = true }
+                            }
                             else -> {
                                 Log.d("TESTING", status.toString())
                             }
@@ -66,7 +71,13 @@ fun MintSocialNavHost(
                 password = password,
                 onPasswordChange = { loginViewModel.onPasswordChange(it) },
                 loginEnabled = !emailError && password.isNotEmpty(),
-                status = status
+                status = status,
+                isSignedIn = isSignedIn,
+                onAlreadyLoggedIn = {
+                    navController.navigate(MintScreen.BlogList.name) {
+                        popUpTo(MintScreen.Login.name) { inclusive = true }
+                    }
+                }
             )
         }
         composable(MintScreen.BlogList.name) {
@@ -143,19 +154,19 @@ fun MintSocialNavHost(
         ) { entry ->
             val blogId = entry.arguments?.getString("blogId")
             val blogDetailViewModel: BlogDetailViewModel = hiltViewModel()
-            val blog: Blog? by blogDetailViewModel.blog.observeAsState()
-            val status: Status by blogDetailViewModel.status.observeAsState(Status.Loading)
-
-            if (blogId != null) {
-                blogDetailViewModel.getBlogById(blogId)
-            }
+            val uiState: BlogDetailUiState by blogDetailViewModel.uiState.observeAsState(
+                BlogDetailUiState(isLoading = true)
+            )
+            blogDetailViewModel.getBlogById(blogId ?: "")
 
             BlogDetailBody(
-                blog,
-                status = status,
+                blog = uiState.blog,
+                isLoading = uiState.isLoading,
                 onProfileClick = { authorId, authorEmail ->
                     navController.navigate("${MintScreen.Profile.name}?userId=${authorId}&userEmail=${authorEmail}")
-                }
+                },
+                errorMessages = uiState.errorMessages,
+                onNetworkError = onNetworkError
             )
         }
         composable("${MintScreen.Profile.name}?userId={userId}&userEmail={userEmail}") { entry ->

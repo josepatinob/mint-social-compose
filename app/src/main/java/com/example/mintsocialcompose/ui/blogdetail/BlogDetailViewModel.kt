@@ -12,22 +12,27 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+data class BlogDetailUiState(
+    val blog: Blog? = null,
+    val isLoading: Boolean,
+    val errorMessages: List<String> = emptyList()
+)
+
 @HiltViewModel
 class BlogDetailViewModel @Inject constructor(
     private val blogRepository: BlogRepository
 ) : ViewModel() {
-    private var _blog = MutableLiveData<Blog>()
-    val blog: LiveData<Blog> get() = _blog
 
-    private var _status = MutableLiveData<Status>()
-    val status: LiveData<Status> get() = _status
+    private var _uiState = MutableLiveData<BlogDetailUiState>()
+    val uiState: LiveData<BlogDetailUiState> get() = _uiState
 
     fun getBlogById(blogId: String) = viewModelScope.launch {
         try {
-            _blog.value = blogRepository.getBlogById(blogId)
-            _status.value = Status.Success
+            _uiState.value =
+                BlogDetailUiState(blog = blogRepository.getBlogById(blogId), isLoading = false)
         } catch (e: Exception) {
-            _status.value = Status.Error
+            _uiState.value =
+                BlogDetailUiState(isLoading = false, errorMessages = listOf("Network error"))
             Log.d(TAG, e.message.toString())
         }
     }
