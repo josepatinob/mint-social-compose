@@ -20,9 +20,9 @@ fun SplashBody(onAnimationComplete: () -> Unit) {
     )
     val progress by animateLottieCompositionAsState(composition)
 
-    if (progress == 1f) {
-        LaunchedEffect(progress) {
-            onAnimationComplete()
+    if (progress == 1f) { // if 1f, lottie animation is complete
+        LaunchedEffect(progress) { // keeps track of progress state and is lifecycle aware
+            onAnimationComplete() // navigates to login screen
         }
     }
 
