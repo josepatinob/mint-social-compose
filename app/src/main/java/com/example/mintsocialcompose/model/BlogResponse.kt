@@ -12,5 +12,5 @@ data class BlogResponse(
     val createdDate: LocalDate,
     val authorId: String,
     val authorEmail: String,
-    val isSponsored: Boolean
+    val isSponsored: Boolean = false
 )

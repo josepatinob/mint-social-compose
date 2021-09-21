@@ -13,7 +13,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -64,9 +66,9 @@ fun BlogDetailBody(
                         // shows an image with a circular revealed animation.
                         circularReveal = CircularReveal(duration = 550),
                         // shows a placeholder ImageBitmap when loading.
-//            placeHolder = ImageBitmap.imageResource(R.drawable.loading),
-//            // shows an error ImageBitmap when the request failed.
-//            error = ImageBitmap.imageResource(R.drawable.ic_connection_error)
+                        placeHolder = ImageBitmap.imageResource(R.drawable.loading_image),
+                        // shows an error ImageBitmap when the request failed.
+                        error = ImageBitmap.imageResource(R.drawable.network_error),
                         modifier = Modifier
                             .height(300.dp)
                     )

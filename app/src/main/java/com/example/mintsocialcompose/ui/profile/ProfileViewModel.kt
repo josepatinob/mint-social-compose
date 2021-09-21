@@ -20,25 +20,6 @@ class ProfileViewModel @Inject constructor(
     val amplifyRepository: AmplifyRepository,
     val blogRepository: BlogRepository
 ) : ViewModel() {
-
-//    fun checkUserSignedIn(
-//        activity: FragmentActivity,
-//        resources: Resources
-//    ) = viewModelScope.launch {
-//        if (!amplifyRepository.isSignedIn()) {
-//            AlertDialog.Builder(activity).showNavAlert(resources, AlertTypes.PROFILE_AS_GUEST).apply {
-//                dialogBuilder.setPositiveButton(positiveDesc) { _, _ ->
-//                    _navigation.value = positiveDest
-//                }
-//                dialogBuilder.setNegativeButton(negativeDesc) { dialog, _ ->
-//                    _navigation.value = negativeDest
-//                    dialog.cancel()
-//                }
-//                dialogBuilder.startDialog()
-//            }
-//        }
-//    }
-
     private var _blogList = MutableLiveData<List<Blog>>()
     val blogList: LiveData<List<Blog>> get() = _blogList
 
@@ -47,6 +28,18 @@ class ProfileViewModel @Inject constructor(
 
     private var _isLoggedInUserProfile = MutableLiveData<Boolean>()
     val isLoggedInUserProfile: LiveData<Boolean> get() = _isLoggedInUserProfile
+
+    // check if user is logged in
+    private var _isSignedIn = MutableLiveData<Boolean>()
+    val isSignedIn: LiveData<Boolean> get() = _isSignedIn
+
+    private fun checkUserAuthStatus() = viewModelScope.launch {
+        _isSignedIn.value = amplifyRepository.isSignedIn()
+    }
+
+    init {
+        checkUserAuthStatus()
+    }
 
     fun getBlogs(authorId: String?) = viewModelScope.launch {
         try {

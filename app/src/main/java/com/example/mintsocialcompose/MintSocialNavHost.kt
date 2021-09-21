@@ -30,6 +30,7 @@ import com.example.mintsocialcompose.ui.profile.ProfileBody
 import com.example.mintsocialcompose.ui.profile.ProfileViewModel
 import com.example.mintsocialcompose.ui.register.RegisterBody
 import com.example.mintsocialcompose.ui.register.RegisterViewModel
+import com.example.mintsocialcompose.ui.splash.SplashBody
 
 @Composable
 fun MintSocialNavHost(
@@ -39,9 +40,16 @@ fun MintSocialNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = MintScreen.Login.name,
+        startDestination = MintScreen.Splash.name,
         modifier = modifier
     ) {
+        composable(MintScreen.Splash.name) {
+            SplashBody() {
+                navController.navigate(MintScreen.Login.name) {
+                    popUpTo(MintScreen.Splash.name) { inclusive = true }
+                }
+            }
+        }
         composable(MintScreen.Login.name) {
             val loginViewModel: LoginViewModel = hiltViewModel()
             val email: String by loginViewModel.email.observeAsState("")
@@ -180,6 +188,8 @@ fun MintSocialNavHost(
                 true
             )
 
+            val isSignedIn: Boolean? by profileViewModel.isSignedIn.observeAsState()
+
             val loggedInUserEmail = profileViewModel.loggedInUserEmail()
             val loggedInUserId = profileViewModel.loggedInUserId()
 
@@ -209,6 +219,12 @@ fun MintSocialNavHost(
                 onSignOut = {
                     profileViewModel.signOut().invokeOnCompletion {
                         navController.navigate(MintScreen.Login.name)
+                    }
+                },
+                isSignedIn = isSignedIn,
+                onLoginClick = {
+                    navController.navigate(MintScreen.Login.name) {
+                        popUpTo(MintScreen.Profile.name) { inclusive = true }
                     }
                 }
             )

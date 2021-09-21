@@ -39,7 +39,9 @@ fun ProfileBody(
     blogList: List<Blog>,
     userEmail: String,
     isLoggedInUserProfile: Boolean,
-    onSignOut: () -> Unit
+    onSignOut: () -> Unit,
+    isSignedIn: Boolean?,
+    onLoginClick: () -> Unit
 ) {
     var state by rememberSaveable { mutableStateOf(0) }
     val tabs = listOf("Info", "Posts")
@@ -71,7 +73,9 @@ fun ProfileBody(
                     blogList.size,
                     userEmail = userEmail,
                     isLoggedInUserProfile = isLoggedInUserProfile,
-                    onSignOut = onSignOut
+                    onSignOut = onSignOut,
+                    isSignedIn = isSignedIn,
+                    onLoginClick = onLoginClick
                 )
                 1 -> PostSection(onItemClick = onItemClick, blogList = blogList)
             }
@@ -84,7 +88,9 @@ fun InfoSection(
     blogCount: Int,
     userEmail: String,
     isLoggedInUserProfile: Boolean,
-    onSignOut: () -> Unit
+    onSignOut: () -> Unit,
+    isSignedIn: Boolean?,
+    onLoginClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -136,17 +142,34 @@ fun InfoSection(
                     )
                     Text(text = "$blogCount posts", fontSize = 20.sp, color = Color.Gray)
                     Text(text = userEmail, fontSize = 20.sp)
-                    TextButton(
-                        onClick = { onSignOut() },
-                        modifier = Modifier.padding(top = 10.dp)
-                    ) {
-                        if (isLoggedInUserProfile) {
-                            Text(
-                                text = "Sign Out",
-                                style = TextStyle(textDecoration = TextDecoration.Underline),
-                                fontSize = 20.sp,
-                                color = MainMaroon
-                            )
+
+                    if (isSignedIn == true) {
+                        TextButton(
+                            onClick = { onSignOut() },
+                            modifier = Modifier.padding(top = 10.dp)
+                        ) {
+                            if (isLoggedInUserProfile) {
+                                Text(
+                                    text = "Sign Out",
+                                    style = TextStyle(textDecoration = TextDecoration.Underline),
+                                    fontSize = 20.sp,
+                                    color = MainMaroon
+                                )
+                            }
+                        }
+                    } else {
+                        TextButton(
+                            onClick = { onLoginClick() },
+                            modifier = Modifier.padding(top = 10.dp)
+                        ) {
+                            if (isLoggedInUserProfile) {
+                                Text(
+                                    text = "Sign In",
+                                    style = TextStyle(textDecoration = TextDecoration.Underline),
+                                    fontSize = 20.sp,
+                                    color = MainMaroon
+                                )
+                            }
                         }
                     }
                 }
