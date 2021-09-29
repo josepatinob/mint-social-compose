@@ -4,17 +4,19 @@ import androidx.compose.material.AlertDialog
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.sp
 
 @Composable
 fun MintAlertDialog(
     title: String,
     body: String,
-    onConfirm: () -> Unit,
-    confirmText: String,
-    onDismiss: () -> Unit,
-    dismissText: String,
+    onConfirm: () -> Unit = {},
+    confirmText: String? = null,
+    onDismiss: () -> Unit = {},
+    dismissText: String? = null,
     dismissOnClickAway: Boolean
 ) {
     AlertDialog(
@@ -32,22 +34,29 @@ fun MintAlertDialog(
             )
         },
         confirmButton = {
-            TextButton(
-                onClick = {
-                    onConfirm()
+            if (confirmText != null) {
+                TextButton(
+                    onClick = {
+                        onConfirm()
+                    }
+                ) {
+                    Text(text = confirmText)
                 }
-            ) {
-                Text(text = confirmText)
             }
         },
         dismissButton = {
-            TextButton(
-                onClick = {
-                    onDismiss()
+            if (dismissText != null) {
+                TextButton(
+                    onClick = {
+                        onDismiss()
+                    }
+                ) {
+                    Text(text = dismissText)
                 }
-            ) {
-                Text(text = dismissText)
             }
+        },
+        modifier = Modifier.semantics {
+            contentDescription = "dialog"
         }
     )
 }

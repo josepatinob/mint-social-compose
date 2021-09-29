@@ -14,6 +14,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -64,7 +65,7 @@ fun LoginBody(
             Column(
                 modifier = Modifier.padding(
                     top = 95.dp, start = 27.dp, end = 27.dp, bottom = 55.dp
-                ),
+                ).testTag("COLUMN"),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 AnnotatedClickableText(

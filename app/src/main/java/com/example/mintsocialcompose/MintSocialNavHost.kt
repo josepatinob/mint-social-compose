@@ -58,6 +58,20 @@ fun MintSocialNavHost(
             val status: Status by loginViewModel.status.observeAsState(Status.Empty)
             val isSignedIn: Boolean? by loginViewModel.isSignedIn.observeAsState()
 
+            val openDialog = remember { mutableStateOf(false) }
+
+            if (openDialog.value) {
+                MintAlertDialog(
+                    title = "Login Failed",
+                    body = "Incorrect credentials provided, please try again.",
+                    onDismiss = {
+                        openDialog.value = false
+                    },
+                    dismissText = "Retry",
+                    dismissOnClickAway = true
+                )
+            }
+
             LoginBody(
                 onLoginClick = {
                     loginViewModel.signIn(email, password).invokeOnCompletion {
@@ -66,7 +80,7 @@ fun MintSocialNavHost(
                                 popUpTo(MintScreen.Login.name) { inclusive = true }
                             }
                             else -> {
-                                Log.d("TESTING", status.toString())
+                                openDialog.value = true
                             }
                         }
                     }
@@ -95,10 +109,6 @@ fun MintSocialNavHost(
             val isSignedIn: Boolean by blogListViewModel.isSignedIn.observeAsState(false)
             val filter: BlogFilter by blogListViewModel.filter.observeAsState(BlogFilter.All)
 
-            val blogFilterList =
-                if (isSignedIn) BlogFilter.values().asList() else BlogFilter.values()
-                    .filter { it.filter == "all" }
-
             BlogListBody(
                 onItemClick = { blogId ->
                     navController.navigate(
@@ -106,7 +116,7 @@ fun MintSocialNavHost(
                     )
                 },
                 blogList = blogList,
-                blogFilterList = blogFilterList,
+                isSignedIn = isSignedIn,
                 status = status,
                 currentFilter = filter,
                 onFilterChange = { blogListViewModel.onFilterChange(it) }
@@ -157,6 +167,7 @@ fun MintSocialNavHost(
             arguments = listOf(
                 navArgument("blogId") {
                     type = NavType.StringType
+                    nullable = true
                 },
             ),
         ) { entry ->
